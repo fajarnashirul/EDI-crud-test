@@ -23,7 +23,7 @@ public class UserController {
     }
 
     @PostMapping(path = "/create")
-    public ResponseEntity<?> createUser(@RequestBody UserModel userModel){
+    public ResponseEntity<?> setDataUser(@RequestBody UserModel userModel){
         if (userService.existsUserByUsername(userModel.getUsername())){
             return ResponseEntity.badRequest().body("username already exists");
         }
@@ -31,7 +31,7 @@ public class UserController {
         return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
     @GetMapping(path = "/{userId}")
-    public ResponseEntity<?> getUser(@PathVariable(name = "userId") String userId){
+    public ResponseEntity<?> getDataUser(@PathVariable(name = "userId") String userId){
         try {
             if (userId.equals("all")){
                 List<UserDto> users = userService.getAllUser();
@@ -46,7 +46,7 @@ public class UserController {
 
     }
     @DeleteMapping(path = "/{userId}")
-    public ResponseEntity<?> delDataUser(@PathVariable(name = "userId") Integer userId){
+    public ResponseEntity<?> deleteDataUser(@PathVariable(name = "userId") Integer userId){
         try {
             userService.delDataUser(userId);
             return ResponseEntity.ok("User with ID " + userId +  " has been deleted");

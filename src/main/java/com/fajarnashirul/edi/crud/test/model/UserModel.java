@@ -21,6 +21,6 @@ public class UserModel {
     private String username;
     @Column(name = "password", nullable = false)
     private String password;
-    @Column(name = "status", length = 100)
+    @Column(name = "status")
     private Character status;
 }
