@@ -8,6 +8,7 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -29,7 +30,7 @@ public class UserImplementation implements UserService {
     public UserDto getUserById(Integer userId) {
         Optional<UserModel> userModel = userRepository.findById(userId);
         if (userModel.isPresent()) {
-            return mapToUserDto(userModel.get());
+            return mapToUserDto(userModel.get());// Fungsi untuk mengubah UserModel menjadi UserDto
         }
         throw new EntityNotFoundException();
     }
@@ -37,6 +38,9 @@ public class UserImplementation implements UserService {
     @Override
     public List<UserDto> getAllUser() {
         List<UserModel> users = userRepository.findAll();
+        if (users.isEmpty()){
+            throw new NoSuchElementException();
+        }
         return users.stream()
                 .map(this::mapToUserDto) // Fungsi untuk mengubah UserModel menjadi UserDto
                 .collect(Collectors.toList());
@@ -46,6 +50,7 @@ public class UserImplementation implements UserService {
     public void delDataUser(Integer userId) {
         Optional<UserModel> userModel = userRepository.findById(userId);
         userModel.ifPresent(userRepository::delete);
+        throw new EntityNotFoundException();
     }
 
     @Override
