@@ -47,7 +47,6 @@ public class UserController {
         }catch (EntityNotFoundException e){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User with id " + userId +" not found");
         }
-
     }
     @DeleteMapping(path = "/{userId}",
             produces = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE })
