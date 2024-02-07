@@ -42,6 +42,12 @@ public class UserImplementation implements UserService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public void delDataUser(Integer userId) {
+        Optional<UserModel> userModel = userRepository.findById(userId);
+        userModel.ifPresent(userRepository::delete);
+    }
+
     private UserDto mapToUserDto(UserModel userModel) {
         UserDto userDto = new UserDto();
         userDto.setUserId(userModel.getUserId());

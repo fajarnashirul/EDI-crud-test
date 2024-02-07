@@ -33,4 +33,9 @@ public class UserController {
         }
         return ResponseEntity.ok(userService.getUserById(Integer.parseInt(userId)));
     }
+    @DeleteMapping(path = "/{userId}")
+    public ResponseEntity<?> delDataUser(@PathVariable(name = "userId") Integer userId){
+        userService.delDataUser(userId);
+        return ResponseEntity.ok("User with ID " + userId +  " has been deleted");
+    }
 }
