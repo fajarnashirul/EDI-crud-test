@@ -48,6 +48,11 @@ public class UserImplementation implements UserService {
         userModel.ifPresent(userRepository::delete);
     }
 
+    @Override
+    public Boolean existsUserByUsername(String username) {
+        return userRepository.existsByUsername(username);
+    }
+
     private UserDto mapToUserDto(UserModel userModel) {
         UserDto userDto = new UserDto();
         userDto.setUserId(userModel.getUserId());

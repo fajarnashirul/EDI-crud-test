@@ -10,4 +10,5 @@ public interface UserService {
     UserDto getUserById(Integer userId);
     List<UserDto> getAllUser();
     void delDataUser(Integer userId);
+    Boolean existsUserByUsername(String username);
 }

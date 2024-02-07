@@ -22,6 +22,9 @@ public class UserController {
 
     @PostMapping(path = "/create")
     public ResponseEntity<?> createUser(@RequestBody UserModel userModel){
+        if (userService.existsUserByUsername(userModel.getUsername())){
+            return ResponseEntity.badRequest().body("username already exists");
+        }
         UserDto user = userService.createUser(userModel);
         return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
