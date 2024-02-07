@@ -49,8 +49,11 @@ public class UserImplementation implements UserService {
     @Override
     public void delDataUser(Integer userId) {
         Optional<UserModel> userModel = userRepository.findById(userId);
-        userModel.ifPresent(userRepository::delete);
-        throw new EntityNotFoundException();
+        if (userModel.isPresent()){
+            userRepository.delete(userModel.get());
+        }else {
+            throw new EntityNotFoundException();
+        }
     }
 
     @Override
