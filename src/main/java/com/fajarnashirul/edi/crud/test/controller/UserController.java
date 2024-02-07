@@ -6,6 +6,7 @@ import com.fajarnashirul.edi.crud.test.service.UserService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,7 +23,9 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping(path = "/create")
+    @PostMapping(path = "/create",
+            produces = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE },
+            consumes = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE })
     public ResponseEntity<?> setDataUser(@RequestBody UserModel userModel){
         if (userService.existsUserByUsername(userModel.getUsername())){
             return ResponseEntity.badRequest().body("username already exists");
@@ -30,7 +33,8 @@ public class UserController {
         UserDto user = userService.createUser(userModel);
         return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
-    @GetMapping(path = "/{userId}")
+    @GetMapping(path = "/{userId}",
+            produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<?> getDataUser(@PathVariable(name = "userId") String userId){
         try {
             if (userId.equals("all")){
@@ -45,7 +49,8 @@ public class UserController {
         }
 
     }
-    @DeleteMapping(path = "/{userId}")
+    @DeleteMapping(path = "/{userId}",
+            produces = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE })
     public ResponseEntity<?> deleteDataUser(@PathVariable(name = "userId") Integer userId){
         try {
             userService.delDataUser(userId);
