@@ -1,5 +1,8 @@
 package com.fajarnashirul.edi.crud.test.service;
 
-public interface UserService {
+import com.fajarnashirul.edi.crud.test.Dto.UserDto;
+import com.fajarnashirul.edi.crud.test.model.UserModel;
 
+public interface UserService {
+    UserDto createUser(UserModel userModel);
 }
