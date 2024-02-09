@@ -22,8 +22,11 @@ public class UserImplementation implements UserService {
 
     @Override
     public UserDto createUser(UserModel userModel) {
-        userRepository.save(userModel);
-        return mapToUserDto(userModel);
+        if (userRepository.save(userModel) > 0){
+            userModel.setUserId(userRepository.getLastUserId());
+            return mapToUserDto(userModel);
+        }
+        throw new InternalError();
     }
 
     @Override
@@ -50,7 +53,7 @@ public class UserImplementation implements UserService {
     public void delDataUser(Integer userId) {
         Optional<UserModel> userModel = userRepository.findById(userId);
         if (userModel.isPresent()){
-            userRepository.delete(userModel.get());
+            userRepository.delete(userId);
         }else {
             throw new EntityNotFoundException();
         }
@@ -58,7 +61,7 @@ public class UserImplementation implements UserService {
 
     @Override
     public Boolean existsUserByUsername(String username) {
-        return userRepository.existsByUsername(username);
+        return (userRepository.existsByUsername(username) > 0);
     }
 
     private UserDto mapToUserDto(UserModel userModel) {

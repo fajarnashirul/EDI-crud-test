@@ -13,9 +13,10 @@ import lombok.Setter;
 @Entity
 public class UserModel {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "userId")
     private Integer userId;
-    @Column(name = "namaLengkap",nullable = false )
+    @Column(name="namaLengkap", nullable = false )
     private String namaLengkap;
     @Column(name = "username", nullable = false, unique = true)
     private String username;

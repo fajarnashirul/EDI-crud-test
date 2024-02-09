@@ -30,8 +30,12 @@ public class UserController {
         if (userService.existsUserByUsername(userModel.getUsername())){
             return ResponseEntity.badRequest().body("username already exists");
         }
-        UserDto user = userService.createUser(userModel);
-        return new ResponseEntity<>(user, HttpStatus.CREATED);
+        try {
+            UserDto user = userService.createUser(userModel);
+            return new ResponseEntity<>(user, HttpStatus.CREATED);
+        }catch (InternalError e){
+            return ResponseEntity.internalServerError().body("Failed to save user");
+        }
     }
     @GetMapping(path = "/{userId}",
             produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
