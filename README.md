@@ -7,6 +7,7 @@ project for technical test EDI
 - Spring Web
 - Spring Data JPA
 - MySQL Driver
+- MyBatis
 - Lombok
 
 ## Installation
