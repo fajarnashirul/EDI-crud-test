@@ -5,6 +5,7 @@ import com.fajarnashirul.edi.crud.test.model.UserModel;
 import com.fajarnashirul.edi.crud.test.repository.UserRepository;
 import com.fajarnashirul.edi.crud.test.service.UserService;
 import jakarta.persistence.EntityNotFoundException;
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -39,8 +40,9 @@ public class UserImplementation implements UserService {
     }
 
     @Override
-    public List<UserDto> getAllUser() {
-        List<UserModel> users = userRepository.findAll();
+    public List<UserDto> getAllUser(Integer page, Integer size, String orderBy, String sortDir) {
+        RowBounds rowBounds = new RowBounds((page - 1) * size, size);
+        List<UserModel> users = userRepository.findAll(rowBounds, orderBy, sortDir.toUpperCase());
         if (users.isEmpty()){
             throw new NoSuchElementException();
         }

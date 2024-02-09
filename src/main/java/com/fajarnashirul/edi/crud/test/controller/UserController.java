@@ -39,10 +39,14 @@ public class UserController {
     }
     @GetMapping(path = "/{userId}",
             produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
-    public ResponseEntity<?> getDataUser(@PathVariable(name = "userId") String userId){
+    public ResponseEntity<?> getDataUser(@PathVariable(name = "userId") String userId,
+                                         @RequestParam(defaultValue = "1") Integer page,
+                                         @RequestParam(defaultValue = "10") Integer size,
+                                         @RequestParam(defaultValue = "userId") String orderBy,
+                                         @RequestParam(defaultValue = "ASC") String sortDir){
         try {
             if (userId.equals("all")){
-                List<UserDto> users = userService.getAllUser();
+                List<UserDto> users = userService.getAllUser(page, size, orderBy, sortDir);
                 return ResponseEntity.ok(users);
             }
             return ResponseEntity.ok(userService.getUserById(Integer.parseInt(userId)));

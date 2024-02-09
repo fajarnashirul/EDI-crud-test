@@ -8,7 +8,7 @@ import java.util.List;
 public interface UserService {
     UserDto createUser(UserModel userModel);
     UserDto getUserById(Integer userId);
-    List<UserDto> getAllUser();
+    List<UserDto> getAllUser(Integer page, Integer size, String orderBy, String sortDir);
     void delDataUser(Integer userId);
     Boolean existsUserByUsername(String username);
 }
