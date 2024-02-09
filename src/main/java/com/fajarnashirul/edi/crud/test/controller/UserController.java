@@ -5,6 +5,10 @@ import com.fajarnashirul.edi.crud.test.model.UserModel;
 import com.fajarnashirul.edi.crud.test.service.UserService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -35,10 +39,17 @@ public class UserController {
     }
     @GetMapping(path = "/{userId}",
             produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
-    public ResponseEntity<?> getDataUser(@PathVariable(name = "userId") String userId){
+    public ResponseEntity<?> getDataUser(@PathVariable(name = "userId") String userId,
+                                         @RequestParam(defaultValue = "1") Integer page,
+                                         @RequestParam(defaultValue = "10") Integer size,
+                                         @RequestParam(defaultValue = "userId") String orderBy,
+                                         @RequestParam(defaultValue = "ASC") String sortDir){
+
+        Sort.Direction direction = "asc".equalsIgnoreCase(sortDir) ? Sort.Direction.ASC : Sort.Direction.DESC;
+        Pageable pageable = PageRequest.of(page - 1, size, direction, orderBy);
         try {
             if (userId.equals("all")){
-                List<UserDto> users = userService.getAllUser();
+                List<UserDto> users = userService.getAllUser(pageable);
                 return ResponseEntity.ok(users);
             }
             return ResponseEntity.ok(userService.getUserById(Integer.parseInt(userId)));

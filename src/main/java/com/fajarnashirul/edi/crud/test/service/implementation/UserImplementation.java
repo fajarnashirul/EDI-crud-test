@@ -5,6 +5,8 @@ import com.fajarnashirul.edi.crud.test.model.UserModel;
 import com.fajarnashirul.edi.crud.test.repository.UserRepository;
 import com.fajarnashirul.edi.crud.test.service.UserService;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -36,8 +38,8 @@ public class UserImplementation implements UserService {
     }
 
     @Override
-    public List<UserDto> getAllUser() {
-        List<UserModel> users = userRepository.findAll();
+    public List<UserDto> getAllUser(Pageable pageable) {
+        Page<UserModel> users = userRepository.findAll(pageable);
         if (users.isEmpty()){
             throw new NoSuchElementException();
         }
